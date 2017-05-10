@@ -1,12 +1,11 @@
 import React from 'react';
 import FilterLink from './FilterLink';
-import { FILTER_STATES } from '../reducers';
 
 const VisibilitySelectionFooter = () => (
   <ul className="visibility-selection">
-    {FILTER_STATES.map(({ filter, label }) => (
+    {['all', 'active', 'completed'].map(filter => (
       <li key={filter}>
-        <FilterLink filter={filter}>{label}</FilterLink>
+        <FilterLink filter={filter === 'all' ? '' : filter}>{filter}</FilterLink>
       </li>
     ))}
   </ul>
