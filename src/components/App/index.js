@@ -1,15 +1,30 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import NewTodoInput from '../NewTodoInput';
+import VisibleTodoList from '../VisibleTodoList';
+import VisibilitySelectionFooter from '../VisibilitySelectionFooter';
+import { hasTodos } from '../../reducers';
 import './App.css';
 
-const App = () => (
-  <div className="App">
-    <div className="App-header">
-      <h2>Welcome to React</h2>
-    </div>
-    <p className="App-intro">
-      To get started, edit <code>src/App.js</code> and save to reload.
-    </p>
+const App = ({ hasTodosProp }) => (
+  <div className="todo-container">
+    <NewTodoInput />
+    {hasTodosProp
+      ? <div>
+        <VisibleTodoList />
+        <VisibilitySelectionFooter />
+      </div>
+      : null}
   </div>
 );
 
-export default App;
+App.propTypes = {
+  hasTodosProp: PropTypes.bool.isRequired,
+};
+
+const mapStateToProps = state => ({
+  hasTodosProp: hasTodos(state),
+});
+
+export default connect(mapStateToProps)(App);
