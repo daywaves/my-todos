@@ -3,8 +3,6 @@ import todos, * as fromTodos from './todos';
 
 export default combineReducers({ todos });
 
-export const hasTodos = state => fromTodos.hasTodos(state);
-
 export const getTodos = state => fromTodos.getTodos(state);
 
 export const getVisibleTodos = (state, filter) => {

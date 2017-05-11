@@ -1,22 +1,13 @@
 import * as actions from '../actions';
 
-const todo = (state, action) => {
-  switch (action.type) {
-    case actions.ADD_TODO:
-      return { id: action.id, text: action.text, completed: false };
-    case actions.TOGGLE_TODO:
-      return state.id === action.id ? { ...state, completed: !state.completed } : state;
-    default:
-      return state;
-  }
-};
-
 const todos = (state = [], action) => {
   switch (action.type) {
-    case actions.ADD_TODO:
-      return [...state, todo(undefined, action)];
-    case actions.TOGGLE_TODO:
-      return state.map(t => todo(t, action));
+    case actions.FETCH_TODOS_SUCCESS:
+      return action.response;
+    case actions.ADD_TODO_SUCCESS:
+      return [...state, action.response];
+    case actions.TOGGLE_TODO_SUCCESS:
+      return state.map(todo => (todo.id === action.response.id ? action.response : todo));
     default:
       return state;
   }

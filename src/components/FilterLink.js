@@ -14,7 +14,7 @@ const FilterLink = ({ children, filter }) => (
 
 FilterLink.propTypes = {
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
-  filter: PropTypes.string.isRequired,
+  filter: PropTypes.oneOf(['all', 'active', 'completed']).isRequired,
 };
 
 export default FilterLink;
