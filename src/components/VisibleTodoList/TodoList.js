@@ -1,11 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import Todo from './Todo';
 
+const ListWithVerticalMargins = styled.ul`
+  margin: 1em 0;
+`;
+
 const TodoList = ({ todos, onTodoClick }) => (
-  <ul>
+  <ListWithVerticalMargins>
     {todos.map(todo => <Todo key={todo.id} {...todo} onClick={() => onTodoClick(todo.id)} />)}
-  </ul>
+  </ListWithVerticalMargins>
 );
 
 TodoList.propTypes = {

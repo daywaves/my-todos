@@ -1,15 +1,24 @@
 import React from 'react';
+import styled from 'styled-components';
 import NewTodoInput from '../NewTodoInput';
 import VisibleTodoList from '../VisibleTodoList';
 import VisibilitySelectionFooter from '../VisibilitySelectionFooter';
-import './App.css';
+
+const TodoAppContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 1em;
+  font-family: sans-serif;
+`;
 
 const App = () => (
-  <div className="todo-container">
+  <TodoAppContainer>
     <NewTodoInput />
     <VisibleTodoList />
     <VisibilitySelectionFooter />
-  </div>
+  </TodoAppContainer>
 );
 
 export default App;
