@@ -1,20 +1,20 @@
 import { combineReducers } from 'redux';
-import todos, * as fromTodos from './todos';
+import todosByID, * as fromTodosByID from './todosByID';
+import createFilterList, * as fromFilterList from './createFilterList';
 
-export default combineReducers({ todos });
+const listByFilter = combineReducers({
+  all: createFilterList('all'),
+  active: createFilterList('active'),
+  completed: createFilterList('completed'),
+});
 
-export const getTodos = state => fromTodos.getTodos(state);
+export default combineReducers({ todosByID, listByFilter });
 
 export const getVisibleTodos = (state, filter) => {
-  const localTodos = getTodos(state);
-  switch (filter) {
-    case 'all':
-      return localTodos;
-    case 'active':
-      return localTodos.filter(t => !t.completed);
-    case 'completed':
-      return localTodos.filter(t => t.completed);
-    default:
-      throw new Error(`Invalid todos filter: ${filter}`);
-  }
+  const ids = fromFilterList.getIDs(state.listByFilter[filter]);
+  return ids.map(id => fromTodosByID.getTodoByID(state.todosByID, id));
 };
+
+export const isFetching = (state, filter) => fromFilterList.isFetching(state.listByFilter[filter]);
+export const getErrorMessage = (state, filter) =>
+  fromFilterList.getErrorMessage(state.listByFilter[filter]);
