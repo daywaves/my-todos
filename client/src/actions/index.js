@@ -33,10 +33,10 @@ export const addTodo = text => (dispatch) => {
   );
 };
 
-export const toggleTodo = id => (dispatch) => {
-  dispatch({ type: TOGGLE_TODO_REQUEST, id });
+export const toggleTodo = todo => (dispatch) => {
+  dispatch({ type: TOGGLE_TODO_REQUEST, todo });
 
-  api.toggleTodo(id).then(
+  api.toggleTodo(todo).then(
     response =>
       dispatch({
         type: TOGGLE_TODO_SUCCESS,

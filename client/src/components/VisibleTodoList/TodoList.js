@@ -9,7 +9,7 @@ const ListWithVerticalMargins = styled.ul`
 
 const TodoList = ({ todos, onTodoClick }) => (
   <ListWithVerticalMargins>
-    {todos.map(todo => <Todo key={todo.id} {...todo} onClick={() => onTodoClick(todo.id)} />)}
+    {todos.map(todo => <Todo key={todo.id} {...todo} onClick={() => onTodoClick(todo)} />)}
   </ListWithVerticalMargins>
 );
 

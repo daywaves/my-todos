@@ -44,7 +44,7 @@ VisibleTodoList.propTypes = {
   ).isRequired,
   toggleTodo: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
-  errorMessage: PropTypes.string,
+  errorMessage: PropTypes.string, // eslint-disable-line react/require-default-props
 };
 
 const mapStateToProps = (state, { match }) => {
