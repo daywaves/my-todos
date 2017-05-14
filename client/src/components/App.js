@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import NewTodoInput from '../NewTodoInput';
-import VisibleTodoList from '../VisibleTodoList';
-import VisibilitySelectionFooter from '../VisibilitySelectionFooter';
+import NewTodoInput from '../containers/NewTodoInput';
+import VisibleTodoList from '../containers/VisibleTodoList';
+import VisibilitySelectionFooter from './VisibilitySelectionFooter';
 
 const TodoAppContainer = styled.div`
   display: flex;
