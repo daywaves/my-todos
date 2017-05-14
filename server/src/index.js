@@ -1,64 +1,55 @@
 import express from 'express';
-import morgan from 'morgan';
+import logger from 'morgan';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import uuidV4 from 'uuid/v4';
+import { Todo } from './db';
 
 const app = express();
-app.use(morgan('combined'));
+app.use(logger('combined'));
 app.use(bodyParser.json());
 app.use(cors());
 
-const makeTodo = (text, completed = false) => ({ text, completed, id: uuidV4() });
-
-const TODOS = [makeTodo('Test this app'), makeTodo('Make api', true)];
-
-app.get('/api/todos', (req, res) => res.json(TODOS));
-app.get('/api/todos/:filter', (req, res) => {
-  const { filter } = req.params;
+app.get('/api/todos', (req, res, next) => {
+  const { filter } = req.query;
+  let selector;
   if (filter === 'active') {
-    return res.json(TODOS.filter(t => !t.completed));
+    selector = { completed: false };
   }
   if (filter === 'completed') {
-    return res.json(TODOS.filter(t => t.completed));
+    selector = { completed: true };
   }
-  return res.sendStatus(400);
+  return Todo.find(selector).then(todos => res.json(todos), err => next(err));
 });
 
-app.post('/api/todos', (req, res) => {
+app.post('/api/todos', (req, res, next) => {
   const { text } = req.body;
   if (text) {
-    const todo = makeTodo(text);
-    TODOS.push(todo);
-    return res.status(201).json(todo);
+    return Todo.create({ text }).then(todo => res.status(201).json(todo), err => next(err));
   }
   return res.sendStatus(400);
 });
 
-app.get('/api/todos/:id', (req, res) => {
+app.get('/api/todos/:id', (req, res, next) => {
   const { id } = req.params;
-  const todo = TODOS.find(t => t.id === id);
-  if (todo) {
-    return res.json(todo);
-  }
-  return res.sendStatus(404);
+  return Todo.findById(id).then(todo => res.json(todo), err => next(err));
 });
 
-app.put('/api/todos/:id', (req, res) => {
+app.put('/api/todos/:id', (req, res, next) => {
   const { id } = req.params;
-  const todo = TODOS.find(t => t.id === id);
-  if (!todo) {
-    return res.sendStatus(404);
+  return Todo.findByIdAndUpdate(id, req.body, { new: true }).then(
+    todo => res.json(todo),
+    err => next(err),
+  );
+});
+
+app.use((err, req, res, next) => {
+  if (res.headersSent) {
+    return next(err);
   }
-  const updatedTodo = req.body;
-  const updatedTodoHas = Object.prototype.hasOwnProperty.bind(updatedTodo);
-  if (!updatedTodoHas('id') || !updatedTodoHas('text') || !updatedTodoHas('completed')) {
-    return res.sendStatus(400);
-  }
-  TODOS[TODOS.indexOf(todo)] = updatedTodo;
-  return res.status(200).json(updatedTodo);
+  console.error(err.stack);
+  return res.status(500).json({ error: 'Something went wrong' });
 });
 
 app.listen(3001, () => {
-  console.log('Server running at http://localhost:3001/'); // eslint-disable-line no-console
+  console.log('Server running at http://localhost:3001/');
 });

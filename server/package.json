@@ -7,13 +7,14 @@
     "lint": "eslint src",
     "dev": "nodemon -w src --exec babel-node src",
     "build": "babel src -s -D -d dist",
-    "start": "node dist",
+    "start": "NODE_ENV=production node dist",
     "prestart": "npm run build"
   },
   "dependencies": {
     "body-parser": "^1.17.1",
     "cors": "^2.8.3",
     "express": "^4.15.2",
+    "mongoose": "^4.9.9",
     "morgan": "^1.8.1",
     "uuid": "^3.0.1"
   },
