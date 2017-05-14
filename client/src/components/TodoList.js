@@ -1,17 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import Todo from './Todo';
 
-const ListWithVerticalMargins = styled.ul`
-  margin: 1em 0;
-`;
-
-const TodoList = ({ todos, onTodoClick }) => (
-  <ListWithVerticalMargins>
-    {todos.map(todo => <Todo key={todo.id} {...todo} onClick={() => onTodoClick(todo)} />)}
-  </ListWithVerticalMargins>
-);
+const TodoList = ({ todos, onTodoChange }) => {
+  if (todos.length === 0) {
+    return (
+      <div className="panel-block">
+        <p className="content">None</p>
+      </div>
+    );
+  }
+  return (
+    <div>
+      {todos.map(todo => <Todo key={todo.id} {...todo} onChange={() => onTodoChange(todo)} />)}
+    </div>
+  );
+};
 
 TodoList.propTypes = {
   todos: PropTypes.arrayOf(
@@ -21,7 +25,7 @@ TodoList.propTypes = {
       completed: PropTypes.bool.isRequired,
     }),
   ).isRequired,
-  onTodoClick: PropTypes.func.isRequired,
+  onTodoChange: PropTypes.func.isRequired,
 };
 
 export default TodoList;

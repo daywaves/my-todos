@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
 const FilterLink = ({ children, filter }) => (
-  <NavLink
-    exact
-    to={`/${filter === 'all' ? '' : filter}`}
-    activeStyle={{ textDecoration: 'none', color: '#000' }}
-  >
+  <NavLink exact to={`/${filter === 'all' ? '' : filter}`} activeClassName="is-active">
     {children}
   </NavLink>
 );

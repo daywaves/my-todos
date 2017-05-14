@@ -2,23 +2,23 @@ import React from 'react';
 import styled from 'styled-components';
 import NewTodoInput from '../containers/NewTodoInput';
 import VisibleTodoList from '../containers/VisibleTodoList';
-import VisibilitySelectionFooter from './VisibilitySelectionFooter';
+import VisibilitySelectionTabs from './VisibilitySelectionTabs';
 
-const TodoAppContainer = styled.div`
+const AppContainer = styled.div`
+  margin: 1em;
   display: flex;
   justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin: 1em;
-  font-family: sans-serif;
 `;
 
 const App = () => (
-  <TodoAppContainer>
-    <NewTodoInput />
-    <VisibleTodoList />
-    <VisibilitySelectionFooter />
-  </TodoAppContainer>
+  <AppContainer>
+    <div className="panel">
+      <p className="panel-heading">Todos</p>
+      <NewTodoInput />
+      <VisibilitySelectionTabs />
+      <VisibleTodoList />
+    </div>
+  </AppContainer>
 );
 
 export default App;

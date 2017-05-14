@@ -28,7 +28,7 @@ class VisibleTodoList extends Component {
     if (errorMessage && !todos.length) {
       return <FetchError message={errorMessage} onRetry={() => this.fetchData()} />;
     }
-    return <TodoList todos={todos} onTodoClick={toggleTodo} />;
+    return <TodoList todos={todos} onTodoChange={toggleTodo} />;
   }
 }
 

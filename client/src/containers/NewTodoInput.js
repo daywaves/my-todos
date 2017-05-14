@@ -20,14 +20,16 @@ class NewTodoInput extends Component {
   }
   render() {
     return (
-      <form onSubmit={e => this.handleSubmit(e)}>
-        <input
-          type="text"
-          onChange={e => this.handleChange(e)}
-          value={this.state.input}
-          placeholder="New Todo"
-        />
-        <button type="submit">Add Todo</button>
+      <form className="panel-block" onSubmit={e => this.handleSubmit(e)}>
+        <p className="control">
+          <input
+            className="input"
+            type="text"
+            onChange={e => this.handleChange(e)}
+            value={this.state.input}
+            placeholder="New Todo"
+          />
+        </p>
       </form>
     );
   }

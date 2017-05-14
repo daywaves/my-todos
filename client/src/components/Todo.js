@@ -2,28 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const TodoLi = styled.li`
-  text-decoration: ${props => (props.completed ? 'line-through' : 'none')};
+const FullWidthLabel = styled.label`
+  width: 100%;
 `;
 
-const Todo = ({ onClick, text, completed }) => (
-  <TodoLi
-    role="button"
-    tabIndex="0"
-    onClick={onClick}
-    onKeyPress={(e) => {
-      if (e.key === ' ' || e.key === 'Enter') onClick();
-    }}
-    completed={completed}
-  >
-    {text}
-  </TodoLi>
+const Todo = ({ onChange, text, completed, id }) => (
+  <div className="panel-block">
+    <FullWidthLabel htmlFor={id} className="checkbox">
+      <input id={id} type="checkbox" checked={completed} onChange={onChange} />
+      {text}
+    </FullWidthLabel>
+  </div>
 );
 
 Todo.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   text: PropTypes.string.isRequired,
   completed: PropTypes.bool.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default Todo;
