@@ -31,13 +31,16 @@ app.post('/api/todos', (req, res, next) => {
 
 app.get('/api/todos/:id', (req, res, next) => {
   const { id } = req.params;
-  return Todo.findById(id).then(todo => res.json(todo), err => next(err));
+  return Todo.findById(id).then(
+    todo => (todo ? res.json(todo) : res.sendStatus(404)),
+    err => next(err),
+  );
 });
 
 app.put('/api/todos/:id', (req, res, next) => {
   const { id } = req.params;
   return Todo.findByIdAndUpdate(id, req.body, { new: true }).then(
-    todo => res.json(todo),
+    todo => (todo ? res.json(todo) : res.sendStatus(404)),
     err => next(err),
   );
 });
