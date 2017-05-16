@@ -2,12 +2,14 @@ import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import compression from 'compression';
 import { Todo } from './db';
 
 const app = express();
 app.use(logger('combined'));
 app.use(bodyParser.json());
 app.use(cors());
+app.use(compression());
 
 app.get('/api/todos', (req, res, next) => {
   const { filter } = req.query;
