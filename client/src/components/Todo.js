@@ -6,11 +6,15 @@ const FullWidthLabel = styled.label`
   width: 100%;
 `;
 
+const TodoText = styled.span`
+  ${props => (props.completed ? 'text-decoration: line-through; font-style: italic; color: hsla(0, 0%, 0%, 0.7);' : '')}
+`;
+
 const Todo = ({ onChange, text, completed, id }) => (
   <div className="panel-block">
     <FullWidthLabel htmlFor={id} className="checkbox">
       <input id={id} type="checkbox" checked={completed} onChange={onChange} />
-      {text}
+      <TodoText completed={completed}>{text}</TodoText>
     </FullWidthLabel>
   </div>
 );
