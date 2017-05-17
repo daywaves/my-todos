@@ -1,20 +1,36 @@
 import * as actions from '../actions';
 
-const todosByID = (state = {}, action) => {
-  if (action.response) {
-    const nextState = { ...state };
-    const newTodos = action.response.entities.todos;
-    Object.keys(newTodos).map(id => (nextState[id] = { ...newTodos[id], isPending: false }));
-    return nextState;
-  }
+const todo = (state, action) => {
   switch (action.type) {
     case actions.TOGGLE_TODO_REQUEST:
     case actions.REMOVE_TODO_REQUEST:
-      return { ...state, [action.payload]: { ...state[action.payload], isPending: true } };
+      return { ...state, isPending: true };
+    case actions.FETCH_TODOS_SUCCESS:
+    case actions.ADD_TODO_SUCCESS:
     case actions.TOGGLE_TODO_SUCCESS:
     case actions.TOGGLE_TODO_FAILURE:
     case actions.REMOVE_TODO_FAILURE:
-      return { ...state, [action.payload]: { ...state[action.payload], isPending: false } };
+      return { ...state, isPending: false };
+    default:
+      return state;
+  }
+};
+
+const todosByID = (state = {}, action) => {
+  switch (action.type) {
+    case actions.FETCH_TODOS_SUCCESS:
+    case actions.ADD_TODO_SUCCESS:
+    case actions.TOGGLE_TODO_SUCCESS: {
+      const nextState = { ...state };
+      const newTodos = action.response.entities.todos;
+      Object.keys(newTodos).map(id => (nextState[id] = todo(newTodos[id], action)));
+      return nextState;
+    }
+    case actions.TOGGLE_TODO_REQUEST:
+    case actions.REMOVE_TODO_REQUEST:
+    case actions.TOGGLE_TODO_FAILURE:
+    case actions.REMOVE_TODO_FAILURE:
+      return { ...state, [action.payload]: todo(state[action.payload], action) };
     case actions.REMOVE_TODO_SUCCESS: {
       const nextState = { ...state };
       delete nextState[action.payload];
