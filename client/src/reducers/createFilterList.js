@@ -24,7 +24,7 @@ const createFilterList = (filter) => {
   };
 
   const isFetching = (state = false, action) => {
-    if (action.filter !== filter) {
+    if (action.payload !== filter) {
       return state;
     }
     switch (action.type) {
@@ -39,7 +39,7 @@ const createFilterList = (filter) => {
   };
 
   const error = (state = null, action) => {
-    if (action.filter !== filter) {
+    if (action.payload !== filter) {
       return state;
     }
     switch (action.type) {

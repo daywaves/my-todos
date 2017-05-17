@@ -16,7 +16,7 @@ const TodoList = ({ todos, onTodoChange, onTodoRemove }) => {
         <Todo
           key={todo.id}
           {...todo}
-          onChange={() => onTodoChange(todo)}
+          onChange={() => onTodoChange(todo.id, !todo.completed)}
           onRemove={() => onTodoRemove(todo.id)}
         />
       ))}

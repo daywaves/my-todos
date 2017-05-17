@@ -10,11 +10,14 @@ const listByFilter = combineReducers({
 
 export default combineReducers({ todosByID, listByFilter });
 
+export const todoIsPending = (state, id) => fromTodosByID.isPendingByID(state.todosByID, id);
+
 export const getVisibleTodos = (state, filter) => {
   const ids = fromFilterList.getIDs(state.listByFilter[filter]);
   return ids.map(id => fromTodosByID.getTodoByID(state.todosByID, id));
 };
 
-export const isFetching = (state, filter) => fromFilterList.isFetching(state.listByFilter[filter]);
+export const filterIsFetching = (state, filter) =>
+  fromFilterList.isFetching(state.listByFilter[filter]);
 export const getErrorMessage = (state, filter) =>
   fromFilterList.getErrorMessage(state.listByFilter[filter]);

@@ -10,10 +10,8 @@ export const fetchTodos = (filter) => {
 export const addTodo = text =>
   axios.post(`${API_URL}/todos`, { text }).then(response => response.data);
 
-export const toggleTodo = todo =>
-  axios
-    .put(`${API_URL}/todos/${todo.id}`, { completed: !todo.completed })
-    .then(response => response.data);
+export const toggleTodo = (id, completed) =>
+  axios.put(`${API_URL}/todos/${id}`, { completed }).then(response => response.data);
 
 export const removeTodo = id =>
   axios.delete(`${API_URL}/todos/${id}`).then(response => response.data);
