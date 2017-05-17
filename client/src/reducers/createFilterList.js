@@ -5,7 +5,7 @@ const createFilterList = (filter) => {
   const ids = (state = [], action) => {
     switch (action.type) {
       case actions.FETCH_TODOS_SUCCESS:
-        return action.filter === filter ? action.response.result : state;
+        return action.payload === filter ? action.response.result : state;
       case actions.ADD_TODO_SUCCESS:
         if (filter !== 'completed') {
           return [...state, action.response.result];
@@ -16,6 +16,8 @@ const createFilterList = (filter) => {
           return state.filter(id => id !== action.response.result);
         }
         return state;
+      case actions.REMOVE_TODO_SUCCESS:
+        return state.filter(id => id !== action.payload);
       default:
         return state;
     }

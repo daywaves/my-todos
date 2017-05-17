@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Todo from './Todo';
 
-const TodoList = ({ todos, onTodoChange }) => {
+const TodoList = ({ todos, onTodoChange, onTodoRemove }) => {
   if (todos.length === 0) {
     return (
       <div className="panel-block">
@@ -12,7 +12,14 @@ const TodoList = ({ todos, onTodoChange }) => {
   }
   return (
     <div>
-      {todos.map(todo => <Todo key={todo.id} {...todo} onChange={() => onTodoChange(todo)} />)}
+      {todos.map(todo => (
+        <Todo
+          key={todo.id}
+          {...todo}
+          onChange={() => onTodoChange(todo)}
+          onRemove={() => onTodoRemove(todo.id)}
+        />
+      ))}
     </div>
   );
 };
@@ -26,6 +33,7 @@ TodoList.propTypes = {
     }),
   ).isRequired,
   onTodoChange: PropTypes.func.isRequired,
+  onTodoRemove: PropTypes.func.isRequired,
 };
 
 export default TodoList;

@@ -14,3 +14,6 @@ export const toggleTodo = todo =>
   axios
     .put(`${API_URL}/todos/${todo.id}`, { completed: !todo.completed })
     .then(response => response.data);
+
+export const removeTodo = id =>
+  axios.delete(`${API_URL}/todos/${id}`).then(response => response.data);
