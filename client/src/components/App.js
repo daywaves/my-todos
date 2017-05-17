@@ -10,14 +10,18 @@ const AppContainer = styled.div`
   justify-content: center;
 `;
 
+const Panel = styled.div`
+  width: 600px;
+`;
+
 const App = () => (
   <AppContainer>
-    <div className="panel">
+    <Panel className="panel">
       <p className="panel-heading">Todos</p>
       <NewTodoInput />
       <VisibilitySelectionTabs />
       <VisibleTodoList />
-    </div>
+    </Panel>
   </AppContainer>
 );
 
