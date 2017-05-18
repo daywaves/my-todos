@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { addTodo } from '../actions';
 
@@ -8,20 +9,28 @@ class NewTodoInput extends Component {
     super(props);
     this.state = {
       input: '',
+      loading: false,
     };
+  }
+  componentWillUnmount() {
+    clearTimeout(this.loadingTimeout);
   }
   handleChange(e) {
     this.setState({ input: e.target.value });
   }
   handleSubmit(e) {
     e.preventDefault();
-    this.props.addTodo(this.state.input);
-    this.setState({ input: '' });
+    this.loadingTimeout = setTimeout(() => this.setState({ loading: true }), 1000);
+    this.props.addTodo(this.state.input).then(() => {
+      clearTimeout(this.loadingTimeout);
+      this.setState({ input: '', loading: false });
+    });
   }
   render() {
+    const controlClass = classnames('control', { 'is-loading': this.state.loading });
     return (
       <form className="panel-block" onSubmit={e => this.handleSubmit(e)}>
-        <p className="control">
+        <p className={controlClass}>
           <input
             className="input"
             type="text"

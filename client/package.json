@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.16.1",
     "bulma": "^0.4.1",
+    "classnames": "^2.2.5",
     "font-awesome": "^4.7.0",
     "normalizr": "^3.2.2",
     "prop-types": "^15.5.8",
