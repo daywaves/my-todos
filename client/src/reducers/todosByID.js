@@ -23,7 +23,9 @@ const todosByID = (state = {}, action) => {
     case actions.TOGGLE_TODO_SUCCESS: {
       const nextState = { ...state };
       const newTodos = action.response.entities.todos;
-      Object.keys(newTodos).map(id => (nextState[id] = todo(newTodos[id], action)));
+      if (newTodos) {
+        Object.keys(newTodos).map(id => (nextState[id] = todo(newTodos[id], action)));
+      }
       return nextState;
     }
     case actions.TOGGLE_TODO_REQUEST:
