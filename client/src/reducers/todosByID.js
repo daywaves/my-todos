@@ -30,10 +30,10 @@ const todosByID = (state = {}, action) => {
     case actions.REMOVE_TODO_REQUEST:
     case actions.TOGGLE_TODO_FAILURE:
     case actions.REMOVE_TODO_FAILURE:
-      return { ...state, [action.payload]: todo(state[action.payload], action) };
+      return { ...state, [action.id]: todo(state[action.id], action) };
     case actions.REMOVE_TODO_SUCCESS: {
       const nextState = { ...state };
-      delete nextState[action.payload];
+      delete nextState[action.id];
       return nextState;
     }
     default:
