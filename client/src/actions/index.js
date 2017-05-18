@@ -37,7 +37,7 @@ export const toggleTodo = (id, completed) => ({
   },
   callAPI: () => api.toggleTodo(id, completed),
   shouldCallAPI: state => !selectors.todoIsPending(state, id),
-  payload: { id },
+  payload: { id, completed },
   schema: schemas.todo,
 });
 

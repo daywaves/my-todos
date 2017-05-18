@@ -12,6 +12,12 @@ const createFilterList = (filter) => {
         }
         return state;
       case actions.TOGGLE_TODO_SUCCESS:
+        if (
+          (filter === 'active' && !action.completed) ||
+          (filter === 'completed' && action.completed)
+        ) {
+          return [...state, action.response.result];
+        }
         if (filter !== 'all') {
           return state.filter(id => id !== action.response.result);
         }
