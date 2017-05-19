@@ -19,7 +19,7 @@ import { normalize } from 'normalizr';
       Function to be called when callAPI results in an error.
       Receives error, dispatch, and getState as arguments.
 */
-const apiActionMiddleware = ({ dispatch, getState }) => next => (action) => {
+const apiActionMiddleware = ({ dispatch, getState }) => next => async (action) => {
   const { types, callAPI, shouldCallAPI = () => true, payload = {}, schema, onError } = action;
 
   if (!types || !callAPI) {
@@ -35,32 +35,32 @@ const apiActionMiddleware = ({ dispatch, getState }) => next => (action) => {
   }
 
   if (!shouldCallAPI(getState())) {
-    return Promise.resolve();
+    return null;
   }
 
   dispatch({ type: types.request, ...payload });
-  return callAPI().then(
-    (response) => {
-      const successAction = {
-        type: types.success,
-        ...payload,
-      };
-      if (schema) {
-        successAction.response = normalize(response, schema);
-      }
-      dispatch(successAction);
-    },
-    (error) => {
-      dispatch({
-        type: types.failure,
-        message: error.message || 'Something went wrong',
-        ...payload,
-      });
-      if (onError) {
-        onError(error, dispatch, getState);
-      }
-    },
-  );
+  let response = null;
+  try {
+    response = await callAPI();
+    const successAction = {
+      type: types.success,
+      ...payload,
+    };
+    if (schema) {
+      successAction.response = normalize(response, schema);
+    }
+    dispatch(successAction);
+  } catch (error) {
+    dispatch({
+      type: types.failure,
+      message: error.message || 'Something went wrong',
+      ...payload,
+    });
+    if (onError) {
+      onError(error, dispatch, getState);
+    }
+  }
+  return response;
 };
 
 export default apiActionMiddleware;

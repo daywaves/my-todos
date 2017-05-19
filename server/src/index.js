@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(compression());
 
-app.get('/api/todos', (req, res, next) => {
+app.get('/api/todos', async (req, res, next) => {
   const { filter } = req.query;
   let selector;
   if (filter === 'active') {
@@ -21,51 +21,68 @@ app.get('/api/todos', (req, res, next) => {
   if (filter === 'completed') {
     selector = { completed: true };
   }
-  return Todo.find(selector).then(todos => res.json(todos), next);
+  try {
+    const todos = await Todo.find(selector);
+    return res.json(todos);
+  } catch (error) {
+    return next(error);
+  }
 });
 
-app.post('/api/todos', (req, res, next) => {
+app.post('/api/todos', async (req, res, next) => {
   const { text } = req.body;
-  if (text) {
-    return Todo.create({ text }).then(todo => res.status(201).json(todo), next);
+  if (!text) {
+    return res.status(400).json({ error: 'Missing text' });
   }
-  return res.status(400).json({ error: 'Missing text' });
+  try {
+    const todo = await Todo.create({ text });
+    return res.status(201).json(todo);
+  } catch (error) {
+    return next(error);
+  }
 });
 
-app.get('/api/todos/:id', (req, res, next) => {
+app.get('/api/todos/:id', async (req, res, next) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(400).json({ error: 'Invalid ID' });
+    return res.status(400).json({ error: 'Invalid ID' });
   }
-  return Todo.findById(id).then(
-    todo => (todo ? res.json(todo) : res.status(404).json({ error: 'ID not found' })),
-    next,
-  );
+  try {
+    const todo = await Todo.findById(id);
+    return todo ? res.json(todo) : res.status(404).json({ error: 'ID not found' });
+  } catch (error) {
+    return next(error);
+  }
 });
 
-app.put('/api/todos/:id', (req, res, next) => {
+app.put('/api/todos/:id', async (req, res, next) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(400).json({ error: 'Invalid ID' });
+    return res.status(400).json({ error: 'Invalid ID' });
   }
-  return Todo.findByIdAndUpdate(id, req.body, { new: true }).then(
-    todo => (todo ? res.json(todo) : res.status(404).json({ error: 'ID not found' })),
-    next,
-  );
+  try {
+    const todo = await Todo.findByIdAndUpdate(id, req.body, { new: true });
+    return todo ? res.json(todo) : res.status(404).json({ error: 'ID not found' });
+  } catch (error) {
+    return next(error);
+  }
 });
 
-app.delete('/api/todos/:id', (req, res, next) => {
+app.delete('/api/todos/:id', async (req, res, next) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(400).json({ error: 'Invalid ID' });
+    return res.status(400).json({ error: 'Invalid ID' });
   }
-  return Todo.findById(id).then((todo) => {
+  try {
+    const todo = await Todo.findById(id);
     if (!todo) {
-      res.status(404).json({ error: 'ID not found' });
-    } else {
-      todo.remove().then(() => res.sendStatus(204), next);
+      return res.status(404).json({ error: 'ID not found' });
     }
-  }, next);
+    await todo.remove();
+    return res.sendStatus(204);
+  } catch (error) {
+    return next(error);
+  }
 });
 
 app.use((err, req, res, next) => {

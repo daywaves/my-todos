@@ -18,14 +18,13 @@ class NewTodoInput extends Component {
   handleChange(e) {
     this.setState({ input: e.target.value });
   }
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault();
     const { addTodo } = this.props;
     this.loadingTimeout = setTimeout(() => this.setState({ loading: true }), 1000);
-    addTodo(this.state.input).then(() => {
-      clearTimeout(this.loadingTimeout);
-      this.setState({ input: '', loading: false });
-    });
+    await addTodo(this.state.input);
+    clearTimeout(this.loadingTimeout);
+    this.setState({ input: '', loading: false });
   }
   render() {
     const controlClass = classnames('control', { 'is-loading': this.state.loading });
