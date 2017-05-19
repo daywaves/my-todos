@@ -15,9 +15,12 @@ import { normalize } from 'normalizr';
     schema (optional):
       normalizr schema to apply to the API call response. If not specified the API response will not
       be included in the success action.
+    onError (optional):
+      Function to be called when callAPI results in an error.
+      Receives error, dispatch, and getState as arguments.
 */
 const apiActionMiddleware = ({ dispatch, getState }) => next => (action) => {
-  const { types, callAPI, shouldCallAPI = () => true, payload = {}, schema } = action;
+  const { types, callAPI, shouldCallAPI = () => true, payload = {}, schema, onError } = action;
 
   if (!types || !callAPI) {
     // Not an API action so pass it on
@@ -47,12 +50,16 @@ const apiActionMiddleware = ({ dispatch, getState }) => next => (action) => {
       }
       dispatch(successAction);
     },
-    error =>
+    (error) => {
       dispatch({
         type: types.failure,
         message: error.message || 'Something went wrong',
         ...payload,
-      }),
+      });
+      if (onError) {
+        onError(error, dispatch, getState);
+      }
+    },
   );
 };
 

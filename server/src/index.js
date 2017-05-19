@@ -73,7 +73,7 @@ app.use((err, req, res, next) => {
     return next(err);
   }
   console.error(err.stack);
-  return res.status(500).json({ error: 'Something went wrong' });
+  return res.status(500).json({ error: 'Server error' });
 });
 
 app.listen(3001, () => {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
-import { addTodo } from '../actions';
+import * as actions from '../actions';
 
 class NewTodoInput extends Component {
   constructor(props) {
@@ -20,8 +20,9 @@ class NewTodoInput extends Component {
   }
   handleSubmit(e) {
     e.preventDefault();
+    const { addTodo } = this.props;
     this.loadingTimeout = setTimeout(() => this.setState({ loading: true }), 1000);
-    this.props.addTodo(this.state.input).then(() => {
+    addTodo(this.state.input).then(() => {
       clearTimeout(this.loadingTimeout);
       this.setState({ input: '', loading: false });
     });
@@ -48,4 +49,4 @@ NewTodoInput.propTypes = {
   addTodo: PropTypes.func.isRequired,
 };
 
-export default connect(null, { addTodo })(NewTodoInput);
+export default connect(null, actions)(NewTodoInput);

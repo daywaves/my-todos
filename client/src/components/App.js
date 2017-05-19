@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import NewTodoInput from '../containers/NewTodoInput';
 import VisibleTodoList from '../containers/VisibleTodoList';
+import NotificationList from '../containers/NotificationList';
 import VisibilitySelectionTabs from './VisibilitySelectionTabs';
 
 const AppContainer = styled.div`
@@ -22,6 +23,7 @@ const App = () => (
       <VisibilitySelectionTabs />
       <VisibleTodoList />
     </Panel>
+    <NotificationList />
   </AppContainer>
 );
 

@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import todosByID, * as fromTodosByID from './todosByID';
 import createFilterList, * as fromFilterList from './createFilterList';
+import notificationList from './notificationList';
 
 const listByFilter = combineReducers({
   all: createFilterList('all'),
@@ -8,7 +9,7 @@ const listByFilter = combineReducers({
   completed: createFilterList('completed'),
 });
 
-export default combineReducers({ todosByID, listByFilter });
+export default combineReducers({ todosByID, listByFilter, notificationList });
 
 export const todoIsPending = (state, id) => fromTodosByID.isPendingByID(state.todosByID, id);
 
