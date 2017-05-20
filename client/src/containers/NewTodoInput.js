@@ -20,6 +20,10 @@ class NewTodoInput extends Component {
   }
   async handleSubmit(e) {
     e.preventDefault();
+    if (!this.state.input.trim()) {
+      this.setState({ input: '' });
+      return;
+    }
     const { addTodo } = this.props;
     this.loadingTimeout = setTimeout(() => this.setState({ loading: true }), 1000);
     await addTodo(this.state.input);
