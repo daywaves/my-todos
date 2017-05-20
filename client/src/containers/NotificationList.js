@@ -27,7 +27,7 @@ const NotificationList = ({ notifications, endNotification }) => (
 NotificationList.propTypes = {
   notifications: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.object.isRequired,
+      id: PropTypes.any.isRequired,
       inner: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.node,
