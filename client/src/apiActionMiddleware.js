@@ -17,7 +17,7 @@ import { normalize } from 'normalizr';
       be included in the success action.
     onError (optional):
       Function to be called when callAPI results in an error.
-      Receives error, dispatch, and getState as arguments.
+      Receives error message, dispatch, and getState as arguments.
 */
 const apiActionMiddleware = ({ dispatch, getState }) => next => async (action) => {
   const { types, callAPI, shouldCallAPI = () => true, payload = {}, schema, onError } = action;
@@ -51,13 +51,14 @@ const apiActionMiddleware = ({ dispatch, getState }) => next => async (action) =
     }
     dispatch(successAction);
   } catch (error) {
+    const message = error.response ? error.response.data.error : error.message;
     dispatch({
       type: types.failure,
-      message: error.message || 'Something went wrong',
+      message,
       ...payload,
     });
     if (onError) {
-      onError(error, dispatch, getState);
+      onError(message, dispatch, getState);
     }
   }
   return response;

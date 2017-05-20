@@ -48,8 +48,8 @@ export const addTodo = text => ({
   callAPI: () => api.addTodo(text),
   payload: { text },
   schema: schemas.todo,
-  onError: (error, dispatch) =>
-    dispatch(displayNotification(`Failed to add todo: ${error.message}`, 'is-danger')),
+  onError: (message, dispatch) =>
+    dispatch(displayNotification(`Failed to add todo: ${message}`, 'is-danger')),
 });
 
 export const toggleTodo = (id, completed) => ({
@@ -62,8 +62,8 @@ export const toggleTodo = (id, completed) => ({
   shouldCallAPI: state => !selectors.todoIsPending(state, id),
   payload: { id, completed },
   schema: schemas.todo,
-  onError: (error, dispatch) =>
-    dispatch(displayNotification(`Failed to toggle todo: ${error.message}`, 'is-danger')),
+  onError: (message, dispatch) =>
+    dispatch(displayNotification(`Failed to toggle todo: ${message}`, 'is-danger')),
 });
 
 export const removeTodo = id => ({
@@ -75,8 +75,8 @@ export const removeTodo = id => ({
   callAPI: () => api.removeTodo(id),
   shouldCallAPI: state => !selectors.todoIsPending(state, id),
   payload: { id },
-  onError: (error, dispatch) =>
-    dispatch(displayNotification(`Failed to remove todo: ${error.message}`, 'is-danger')),
+  onError: (message, dispatch) =>
+    dispatch(displayNotification(`Failed to remove todo: ${message}`, 'is-danger')),
 });
 
 export const fetchTodos = filter => ({
@@ -89,6 +89,6 @@ export const fetchTodos = filter => ({
   shouldCallAPI: state => !selectors.filterIsFetching(state, filter),
   payload: { filter },
   schema: schemas.todos,
-  onError: (error, dispatch) =>
-    dispatch(displayNotification(`Failed to fetch todos: ${error.message}`, 'is-danger')),
+  onError: (message, dispatch) =>
+    dispatch(displayNotification(`Failed to fetch todos: ${message}`, 'is-danger')),
 });
