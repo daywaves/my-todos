@@ -8,7 +8,9 @@ const NotificationContainer = styled.div`
 `;
 
 const Notification = ({ children, modifierClass, onDelete }) => {
-  const notificationClass = classnames('notification', { [modifierClass]: modifierClass });
+  const notificationClass = classnames('notification', {
+    [modifierClass]: typeof modifierClass !== 'undefined',
+  });
   return (
     <NotificationContainer className={notificationClass}>
       <button className="delete" onClick={onDelete} />
