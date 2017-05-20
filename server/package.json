@@ -1,14 +1,13 @@
 {
-  "name": "server",
+  "name": "my-todos-server",
   "version": "0.1.0",
   "private": true,
   "main": "src/index.js",
   "scripts": {
     "lint": "eslint src",
-    "dev": "nodemon -w src --exec babel-node src",
+    "dev": "nodemon -w src -w .env --exec node -r dotenv/config -r 'babel-register' src",
     "build": "babel src -s -D -d dist",
-    "start": "NODE_ENV=production node dist",
-    "prestart": "npm run build"
+    "start": "NODE_ENV=production node dist"
   },
   "dependencies": {
     "body-parser": "^1.17.1",
@@ -22,6 +21,8 @@
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-preset-env": "^1.4.0",
+    "babel-register": "^6.24.1",
+    "dotenv": "^4.0.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.1.3",
     "eslint-plugin-import": "^2.2.0",

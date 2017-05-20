@@ -1,7 +1,8 @@
 import mongoose, { Schema } from 'mongoose';
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/todos');
+const { DB_HOST, DB_NAME, DB_PASSWORD, DB_USER } = process.env;
+mongoose.connect(`mongodb://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`);
 
 const todoSchema = new Schema({
   text: String,

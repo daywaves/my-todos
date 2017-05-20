@@ -1,4 +1,7 @@
 dist/
+build/
+.env.now
+*.css
 
 # Created by https://www.gitignore.io/api/node,osx
 
@@ -58,9 +61,6 @@ typings/
 
 # Yarn Integrity file
 .yarn-integrity
-
-# dotenv environment variables file
-.env
 
 
 ### OSX ###
