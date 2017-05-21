@@ -63,6 +63,7 @@ const createFilterList = (filter) => {
 
 export default createFilterList;
 
-export const getIDs = state => state.ids;
+export const getIDs = state => state.ids.slice();
 export const isFetching = state => state.isFetching;
 export const getErrorMessage = state => state.error;
+export const getIndexOfID = (state, id) => state.ids.indexOf(id);

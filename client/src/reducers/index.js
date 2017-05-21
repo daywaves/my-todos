@@ -15,6 +15,13 @@ export const todoIsPending = (state, id) => fromTodosByID.isPendingByID(state.to
 
 export const getVisibleTodos = (state, filter) => {
   const ids = fromFilterList.getIDs(state.listByFilter[filter]);
+  // Keep other filter lists in same order as 'all' list
+  // (Order can be incorrect after toggling a todo and pushing it to the active/completed list)
+  ids.sort(
+    (firstID, secondID) =>
+      fromFilterList.getIndexOfID(state.listByFilter.all, firstID) -
+      fromFilterList.getIndexOfID(state.listByFilter.all, secondID),
+  );
   return ids.map(id => fromTodosByID.getTodoByID(state.todosByID, id));
 };
 
