@@ -66,6 +66,7 @@ class Todo extends Component {
         className="input is-warning"
         onChange={e => this.handleTextChange(e)}
         value={text}
+        onBlur={e => this.handleTextSubmit(e)}
         onKeyUp={(e) => {
           if (e.key === 'Enter') this.handleTextSubmit(e);
         }}
