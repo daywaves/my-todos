@@ -9,7 +9,7 @@ class NewTodoInput extends Component {
     super(props);
     this.state = {
       input: '',
-      loading: false,
+      pending: false,
     };
   }
   componentWillUnmount() {
@@ -25,13 +25,13 @@ class NewTodoInput extends Component {
       return;
     }
     const { addTodo } = this.props;
-    this.loadingTimeout = setTimeout(() => this.setState({ loading: true }), 1000);
+    this.loadingTimeout = setTimeout(() => this.setState({ pending: true }), 1000);
     await addTodo(this.state.input);
     clearTimeout(this.loadingTimeout);
-    this.setState({ input: '', loading: false });
+    this.setState({ input: '', pending: false });
   }
   render() {
-    const controlClass = classnames('control has-icons-left', { 'is-loading': this.state.loading });
+    const controlClass = classnames('control has-icons-left', { 'is-loading': this.state.pending });
     return (
       <div className="panel-block">
         <p className={controlClass}>
