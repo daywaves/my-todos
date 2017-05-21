@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import PropChangeDelayer from './PropChangeDelayer';
 import Todo from './Todo';
 
 const TodoList = ({ todos, onTodoToggle, onTodoRemove }) => {
@@ -13,12 +14,22 @@ const TodoList = ({ todos, onTodoToggle, onTodoRemove }) => {
   return (
     <div>
       {todos.map(todo => (
-        <Todo
+        <PropChangeDelayer
           key={todo.id}
-          {...todo}
-          onToggle={() => onTodoToggle(todo.id, !todo.completed)}
-          onRemove={() => onTodoRemove(todo.id)}
-        />
+          delay={1000}
+          delayedPropName="showLoader"
+          value={todo.isPending}
+          resetValue={false}
+        >
+          <Todo
+            id={todo.id}
+            text={todo.text}
+            completed={todo.completed}
+            isPending={todo.isPending}
+            onToggle={() => onTodoToggle(todo.id, !todo.completed)}
+            onRemove={() => onTodoRemove(todo.id)}
+          />
+        </PropChangeDelayer>
       ))}
     </div>
   );
