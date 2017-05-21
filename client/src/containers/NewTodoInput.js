@@ -31,19 +31,25 @@ class NewTodoInput extends Component {
     this.setState({ input: '', loading: false });
   }
   render() {
-    const controlClass = classnames('control', { 'is-loading': this.state.loading });
+    const controlClass = classnames('control has-icons-left', { 'is-loading': this.state.loading });
     return (
-      <form className="panel-block" onSubmit={e => this.handleSubmit(e)}>
+      <div className="panel-block">
         <p className={controlClass}>
           <input
-            className="input"
+            className="input is-small"
             type="text"
             onChange={e => this.handleChange(e)}
+            onKeyUp={(e) => {
+              if (e.key === 'Enter') this.handleSubmit(e);
+            }}
             value={this.state.input}
             placeholder="New Todo"
           />
+          <span className="icon is-left is-small">
+            <i className="fa fa-plus" aria-hidden="true" />
+          </span>
         </p>
-      </form>
+      </div>
     );
   }
 }
