@@ -36,7 +36,7 @@ class NewTodoInput extends Component {
       <div className="panel-block">
         <p className={controlClass}>
           <input
-            className="input is-small"
+            className="input"
             type="text"
             onChange={e => this.handleChange(e)}
             onKeyUp={(e) => {
@@ -44,6 +44,7 @@ class NewTodoInput extends Component {
             }}
             value={this.state.input}
             placeholder="New Todo"
+            autoFocus
           />
           <span className="icon is-left is-small">
             <i className="fa fa-plus" aria-hidden="true" />

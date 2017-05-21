@@ -11,6 +11,10 @@ export const TOGGLE_TODO_REQUEST = 'TOGGLE_TODO_REQUEST';
 export const TOGGLE_TODO_SUCCESS = 'TOGGLE_TODO_SUCCESS';
 export const TOGGLE_TODO_FAILURE = 'TOGGLE_TODO_FAILURE';
 
+export const EDIT_TODO_REQUEST = 'EDIT_TODO_REQUEST';
+export const EDIT_TODO_SUCCESS = 'EDIT_TODO_SUCCESS';
+export const EDIT_TODO_FAILURE = 'EDIT_TODO_FAILURE';
+
 export const REMOVE_TODO_REQUEST = 'REMOVE_TODO_REQUEST';
 export const REMOVE_TODO_SUCCESS = 'REMOVE_TODO_SUCCESS';
 export const REMOVE_TODO_FAILURE = 'REMOVE_TODO_FAILURE';
@@ -44,6 +48,20 @@ export const toggleTodo = (id, completed) => ({
   schema: schemas.todo,
   onError: (message, dispatch) =>
     dispatch(displayNotification(`Failed to toggle todo: ${message}`, 'is-danger')),
+});
+
+export const editTodo = (id, text) => ({
+  types: {
+    request: EDIT_TODO_REQUEST,
+    success: EDIT_TODO_SUCCESS,
+    failure: EDIT_TODO_FAILURE,
+  },
+  callAPI: () => api.editTodo(id, text),
+  shouldCallAPI: state => !selectors.todoIsPending(state, id),
+  payload: { id, text },
+  schema: schemas.todo,
+  onError: (message, dispatch) =>
+    dispatch(displayNotification(`Failed to edit todo: ${message}`, 'is-danger')),
 });
 
 export const removeTodo = id => ({

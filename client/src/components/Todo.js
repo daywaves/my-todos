@@ -1,16 +1,45 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import styled from 'styled-components';
+import { TOGGLE_TODO_REQUEST, EDIT_TODO_REQUEST, REMOVE_TODO_REQUEST } from '../actions';
 
 const TodoText = styled.span`
   flex-grow: 1;
   ${props => (props.completed ? 'text-decoration: line-through; font-style: italic; color: hsla(0, 0%, 0%, 0.7);' : '')}
 `;
 
-const Todo = ({ onToggle, onRemove, text, completed, id, isPending, showLoader }) => {
-  const inputID = `checkbox-${id}`;
-  return (
-    <label htmlFor={inputID} className="panel-block">
+class Todo extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      text: this.props.text,
+      isEditing: false,
+    };
+  }
+  handleEditClick() {
+    this.setState({ isEditing: !this.state.isEditing });
+  }
+  handleTextChange(e) {
+    this.setState({ text: e.target.value });
+  }
+  async handleTextSubmit() {
+    this.setState({ isEditing: false });
+    if (this.state.text !== this.props.text) {
+      await this.props.onEdit(this.state.text);
+      this.setState({ text: this.props.text });
+    }
+  }
+  render() {
+    const { onToggle, onRemove, completed, id, pendingAction } = this.props;
+    const { isEditing, text } = this.state;
+    const isPending = pendingAction !== null;
+    const editPending = pendingAction === EDIT_TODO_REQUEST;
+    const togglePending = pendingAction === TOGGLE_TODO_REQUEST;
+    const removePending = pendingAction === REMOVE_TODO_REQUEST;
+    const inputID = `checkbox-${id}`;
+
+    const checkbox = (
       <input
         id={inputID}
         type="checkbox"
@@ -18,36 +47,76 @@ const Todo = ({ onToggle, onRemove, text, completed, id, isPending, showLoader }
         checked={completed}
         disabled={isPending}
       />
+    );
+
+    const textEditingInput = (
+      <input
+        type="text"
+        className="input is-warning"
+        onChange={e => this.handleTextChange(e)}
+        value={text}
+        onKeyUp={(e) => {
+          if (e.key === 'Enter') this.handleTextSubmit(e);
+        }}
+        autoFocus
+      />
+    );
+    const todoLabel = (
       <TodoText completed={completed} className="is-unselectable">
         {text}
       </TodoText>
-      {showLoader
-        ? <div className="loader" />
-        : <button
-          className="button is-small is-outlined is-danger"
-          onClick={onRemove}
-          disabled={isPending}
-        >
-          <span className="icon is-small" aria-label="Delete">
-            <i className="fa fa-times" aria-hidden="true" />
-          </span>
-        </button>}
-    </label>
-  );
-};
+    );
+
+    return (
+      <label htmlFor={inputID} className="panel-block">
+        {togglePending ? <p className="icon"><i className="loader" /></p> : checkbox}
+        {isEditing ? textEditingInput : todoLabel}
+        <div className="field is-grouped">
+          <p className="control">
+            <button
+              className={classnames('button is-small is-warning is-outlined', {
+                'is-hidden': isEditing,
+                'is-loading': editPending,
+              })}
+              onClick={() => this.handleEditClick()}
+              disabled={isPending}
+            >
+              <span className="icon is-small" aria-label="Edit">
+                <i className="fa fa-pencil" aria-hidden="true" />
+              </span>
+            </button>
+          </p>
+          <p className="control">
+            <button
+              className={classnames('button is-small is-outlined is-danger', {
+                'is-loading': removePending,
+              })}
+              onClick={onRemove}
+              disabled={isPending}
+            >
+              <span className="icon is-small" aria-label="Delete">
+                <i className="fa fa-times" aria-hidden="true" />
+              </span>
+            </button>
+          </p>
+        </div>
+      </label>
+    );
+  }
+}
 
 Todo.propTypes = {
   onToggle: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
   text: PropTypes.string.isRequired,
   completed: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
-  isPending: PropTypes.bool.isRequired,
-  showLoader: PropTypes.bool,
+  pendingAction: PropTypes.oneOf([TOGGLE_TODO_REQUEST, EDIT_TODO_REQUEST, REMOVE_TODO_REQUEST]),
 };
 
 Todo.defaultProps = {
-  showLoader: false,
+  pendingAction: null,
 };
 
 export default Todo;

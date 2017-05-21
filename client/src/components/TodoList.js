@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PropChangeDelayer from './PropChangeDelayer';
 import Todo from './Todo';
 
-const TodoList = ({ todos, onTodoToggle, onTodoRemove }) => {
+const TodoList = ({ todos, onTodoToggle, onTodoEdit, onTodoRemove }) => {
   if (todos.length === 0) {
     return (
       <div className="panel-block">
@@ -14,22 +13,16 @@ const TodoList = ({ todos, onTodoToggle, onTodoRemove }) => {
   return (
     <div>
       {todos.map(todo => (
-        <PropChangeDelayer
+        <Todo
           key={todo.id}
-          delay={1000}
-          delayedPropName="showLoader"
-          value={todo.isPending}
-          resetValue={false}
-        >
-          <Todo
-            id={todo.id}
-            text={todo.text}
-            completed={todo.completed}
-            isPending={todo.isPending}
-            onToggle={() => onTodoToggle(todo.id, !todo.completed)}
-            onRemove={() => onTodoRemove(todo.id)}
-          />
-        </PropChangeDelayer>
+          id={todo.id}
+          text={todo.text}
+          completed={todo.completed}
+          pendingAction={todo.pendingAction}
+          onToggle={() => onTodoToggle(todo.id, !todo.completed)}
+          onEdit={text => onTodoEdit(todo.id, text)}
+          onRemove={() => onTodoRemove(todo.id)}
+        />
       ))}
     </div>
   );
@@ -44,6 +37,7 @@ TodoList.propTypes = {
     }),
   ).isRequired,
   onTodoToggle: PropTypes.func.isRequired,
+  onTodoEdit: PropTypes.func.isRequired,
   onTodoRemove: PropTypes.func.isRequired,
 };
 

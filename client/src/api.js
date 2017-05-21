@@ -18,6 +18,11 @@ export const toggleTodo = async (id, completed) => {
   return response.data;
 };
 
+export const editTodo = async (id, text) => {
+  const response = await axios.put(`${API_URL}todos/${id}`, { text });
+  return response.data;
+};
+
 export const removeTodo = async (id) => {
   const response = await axios.delete(`${API_URL}todos/${id}`);
   return response.data;
