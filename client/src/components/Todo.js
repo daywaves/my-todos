@@ -1,14 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { TOGGLE_TODO_REQUEST, EDIT_TODO_REQUEST, REMOVE_TODO_REQUEST } from '../actions';
 
 const TodoText = styled.span`
   flex-grow: 1;
-  ${props => (props.completed ? 'text-decoration: line-through; font-style: italic; color: hsl(0, 0%, 48%);' : '')}
-  ${props => (props.disabled ? 'color: hsl(0, 0%, 71%);' : '')}
   transition: color 0.2s;
+
+  ${props => props.completed && css`
+    text-decoration: line-through;
+    font-style: italic;
+    color: hsl(0, 0%, 48%);
+  `}
+  
+  ${props => props.disabled && css`
+    color: hsl(0, 0%, 71%);
+  `}
 `;
 
 const OpacityTransitionButton = styled.button`
