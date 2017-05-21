@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Todo from './Todo';
 
-const TodoList = ({ todos, onTodoChange, onTodoRemove }) => {
+const TodoList = ({ todos, onTodoToggle, onTodoRemove }) => {
   if (todos.length === 0) {
     return (
       <div className="panel-block">
@@ -16,7 +16,7 @@ const TodoList = ({ todos, onTodoChange, onTodoRemove }) => {
         <Todo
           key={todo.id}
           {...todo}
-          onChange={() => onTodoChange(todo.id, !todo.completed)}
+          onToggle={() => onTodoToggle(todo.id, !todo.completed)}
           onRemove={() => onTodoRemove(todo.id)}
         />
       ))}
@@ -32,7 +32,7 @@ TodoList.propTypes = {
       completed: PropTypes.bool.isRequired,
     }),
   ).isRequired,
-  onTodoChange: PropTypes.func.isRequired,
+  onTodoToggle: PropTypes.func.isRequired,
   onTodoRemove: PropTypes.func.isRequired,
 };
 
