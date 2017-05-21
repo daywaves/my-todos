@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import App from './components/App';
 import configureStore from './store';
+import registerServiceWorker from './registerServiceWorker';
 import './index.css'; // eslint-disable-line import/no-unresolved
 
 const store = configureStore();
@@ -16,3 +17,4 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root'),
 );
+registerServiceWorker();
