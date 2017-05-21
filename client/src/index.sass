@@ -1,3 +1,5 @@
+@import "../node_modules/bulma/sass/utilities/functions"
+
 // 1. Import the initial variables
 @import "../node_modules/bulma/sass/utilities/initial-variables"
 
@@ -10,6 +12,8 @@ $brown: #6A4A3C
 
 // 3. Set the derived variables
 $primary: $ocean-blue
+$primary-invert: findColorInvert($ocean-blue)
+$brown-invert: findColorInvert($brown)
 
 // 4. Import the rest of Bulma
 @import "../node_modules/font-awesome/css/font-awesome.css"
