@@ -49,7 +49,11 @@ const apiActionMiddleware = ({ dispatch, getState }) => next => async (action) =
     }
     dispatch(successAction);
   } catch (error) {
-    const message = error.response ? error.response.data.error : error.message;
+    let message = error.message;
+    // Use API response error message if there is one
+    if (error.response && typeof error.response.data.error !== 'undefined') {
+      message = error.response.data.error;
+    }
     dispatch({
       type: types.failure,
       message,
