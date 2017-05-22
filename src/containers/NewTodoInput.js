@@ -47,7 +47,7 @@ class NewTodoInput extends Component {
             autoFocus
           />
           <span className="icon is-left is-small">
-            <i className="fa fa-plus" aria-hidden="true" />
+            <i className="icon-plus" aria-hidden="true" />
           </span>
         </p>
       </div>

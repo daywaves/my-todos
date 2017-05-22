@@ -6,7 +6,7 @@ import App from './components/App';
 import NotFound from './components/NotFound';
 import configureStore from './store';
 import registerServiceWorker from './registerServiceWorker';
-import './index.css'; // eslint-disable-line import/no-unresolved
+import './styles/index.css'; // eslint-disable-line import/no-unresolved
 
 const store = configureStore();
 

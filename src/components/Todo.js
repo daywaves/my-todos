@@ -13,7 +13,7 @@ const TodoText = styled.span`
     font-style: italic;
     color: hsl(0, 0%, 48%);
   `}
-  
+
   ${props => props.disabled && css`
     color: hsl(0, 0%, 71%);
   `}
@@ -104,7 +104,7 @@ class Todo extends Component {
               disabled={isPending}
             >
               <span className="icon is-small" aria-label="Edit">
-                <i className="fa fa-pencil" aria-hidden="true" />
+                <i className="icon-pencil" aria-hidden="true" />
               </span>
             </OpacityTransitionButton>
           </p>
@@ -117,7 +117,7 @@ class Todo extends Component {
               disabled={isPending}
             >
               <span className="icon is-small" aria-label="Delete">
-                <i className="fa fa-times" aria-hidden="true" />
+                <i className="icon-cancel" aria-hidden="true" />
               </span>
             </OpacityTransitionButton>
           </p>
