@@ -1,9 +1,10 @@
 import express from 'express';
-import logger from 'morgan';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import compression from 'compression';
+import logger from 'morgan';
 import mongoose from 'mongoose';
+import path from 'path';
 import { Todo } from './db';
 
 const app = express();
@@ -11,6 +12,14 @@ app.use(logger('combined'));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(compression());
+
+const isProduction = process.env.NODE_ENV === 'production';
+
+// Serve client when running in production mode
+if (isProduction) {
+  console.log('Serving client');
+  app.use(express.static(path.join(__dirname, '../build')));
+}
 
 app.get('/api/todos', async (req, res, next) => {
   const { filter } = req.query;
@@ -84,6 +93,11 @@ app.delete('/api/todos/:id', async (req, res, next) => {
     return next(error);
   }
 });
+
+if (isProduction) {
+  // Direct unknown paths to client and handle 404 there
+  app.use('*', (req, res) => res.sendFile(path.resolve(__dirname, '../build/index.html')));
+}
 
 app.use((err, req, res, next) => {
   if (res.headersSent) {
