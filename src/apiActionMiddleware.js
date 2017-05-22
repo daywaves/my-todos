@@ -1,24 +1,22 @@
 import { normalize } from 'normalizr';
 
-/*
-  Redux middleware function allowing dispatch of API actions.
-  An API action is an object containing the following keys:
-    types:
-      An object with keys request, success, and failure pointing to corresponding action types.
-    callAPI:
-      Function that performs the actual API call and returns a promise.
-    shouldCallAPI (optional):
-      Function that determines if the API call should be invoked or not. If not specified it will
-      always be invoked. Used for caching, preventing repeated or conflicting actions, etc.
-    payload (optional):
-      Object containing properties to be included in all actions.
-    schema (optional):
-      normalizr schema to apply to the API call response. If not specified the API response will not
-      be included in the success action.
-    onError (optional):
-      Function to be called when callAPI results in an error.
-      Receives error message, dispatch, and getState as arguments.
-*/
+/**
+ * Redux middleware function allowing dispatch of API actions.
+ * An API action is an object containing the following keys:
+ *   types: An object containing request, success, and failure action types.
+ *   callAPI: Function that performs the actual API call and returns a promise.
+ *   [shouldCallAPI]:
+ *     Function that determines if the API call should be invoked or not.
+ *     If not specified it will always be invoked.
+ *     Used for caching, preventing repeated or conflicting actions, etc.
+ *   [payload]: Object containing properties to be included in all actions.
+ *   [schema]:
+ *     normalizr schema to apply to the API call response.
+ *     If not specified the API response will not be included in the success action.
+ *   [onError]:
+ *     Function to be called when callAPI results in an error.
+ *     Receives error message, dispatch, and getState as arguments.
+ */
 const apiActionMiddleware = ({ dispatch, getState }) => next => async (action) => {
   const { types, callAPI, shouldCallAPI = () => true, payload = {}, schema, onError } = action;
 
