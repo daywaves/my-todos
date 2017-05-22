@@ -28,6 +28,10 @@ const CheckboxContainer = styled.div`
   min-width: 2em;
 `;
 
+const PointerCheckbox = styled.input`
+  cursor: pointer;
+`;
+
 class Todo extends Component {
   constructor(props) {
     super(props);
@@ -59,7 +63,7 @@ class Todo extends Component {
     const inputID = `checkbox-${id}`;
 
     const checkbox = (
-      <input
+      <PointerCheckbox
         id={inputID}
         type="checkbox"
         onChange={onToggle}
