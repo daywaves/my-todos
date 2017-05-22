@@ -12,13 +12,14 @@ Originally based on what I learned from [gaeron's Redux guides](https://egghead.
 * Loading animations for different actions
 
 ## Usage
-* First set up MongoDB and run it using `mongod` or however you prefer. Setup a database and set `DB_NAME` in this project's `.env` file.
+* First install MongoDB and run it using `mongod` or however you prefer.
+* Set the environment variables in `.env`.
 * Make sure you install dependencies with `npm install`.
 * Build with `npm run build` and then start the server with `npm run start`.
 * Open the app at http://localhost:3001/
 
 ### Development
-* Make sure MongoDB is setup and dependencies are installed as described above.
+* Make sure MongoDB is running and dependencies are installed as described above.
 * Run the api server with `npm run dev:api`. The server will restart automatically when files are changed.
 * Run the client dev server with `npm run dev:client`. The app reloads in the browser on file changes.
 
