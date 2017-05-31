@@ -24,9 +24,6 @@
     "styled-components": "^2.0.0-17"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-preset-env": "^1.5.0",
-    "babel-register": "^6.24.1",
     "dotenv": "^4.0.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
@@ -42,12 +39,9 @@
   "scripts": {
     "start-js": "react-scripts start",
     "dev:client": "npm-run-all -p watch-css start-js",
-    "dev:api": "nodemon -w api -w .env --exec node -r dotenv/config -r 'babel-register' api",
-    "build:client": "npm run build-css && react-scripts build",
-    "build:api": "babel api -s -D -d dist",
-    "build": "npm-run-all build:client build:api",
-    "start:api": "NODE_ENV=production node -r dotenv/config dist",
-    "start": "npm run start:api",
+    "dev:api": "nodemon -w api -w .env --exec node -r dotenv/config api",
+    "build": "npm run build-css && react-scripts build",
+    "start": "NODE_ENV=production node -r dotenv/config api",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint src api",

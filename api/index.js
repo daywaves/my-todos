@@ -1,11 +1,11 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-import compression from 'compression';
-import logger from 'morgan';
-import mongoose from 'mongoose';
-import path from 'path';
-import { Todo } from './db';
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const compression = require('compression');
+const logger = require('morgan');
+const mongoose = require('mongoose');
+const path = require('path');
+const Todo = require('./db').Todo;
 
 const app = express();
 app.use(logger('combined'));
